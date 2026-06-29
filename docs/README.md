@@ -14,6 +14,9 @@
 |---|---|---|
 | [niagara_system_tick_and_execution_flow.md](./niagara_system_tick_and_execution_flow.md) | Niagara 系统 Tick 与执行流程（WorldManager→SystemSimulation→Instance→Emitter） | flow |
 | [static_mesh_location_gpu_spawn_flow.md](./static_mesh_location_gpu_spawn_flow.md) | Niagara GPU Static Mesh Location 粒子 Spawn 流程 | flow |
+| [niagara_add_velocity_gpu_spawn_flow.md](./niagara_add_velocity_gpu_spawn_flow.md) | Niagara GPU Add Velocity（传统 VM）粒子 Spawn 流程 | flow |
+| [niagara_static_mesh_di_internals.md](./niagara_static_mesh_di_internals.md) | Niagara Static Mesh DataInterface 类内部实现详解 | architecture |
+| [niagara_gpu_sim_to_render_data_flow.md](./niagara_gpu_sim_to_render_data_flow.md) | Niagara GPU 模拟与渲染之间的数据处理逻辑 | flow |
 
 ---
 
