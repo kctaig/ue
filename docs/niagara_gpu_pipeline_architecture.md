@@ -1303,7 +1303,7 @@ if (SystemGpuComputeProxy)
 
 第 7 章角色② 概览了 Proxy 的身份和成员。Proxy 是五个角色中最复杂的一个，它的完整分析（类定义、5 个核心方法源码、`TUniquePtr` 所有权模型、生命周期状态机、线程安全约束、4 个关键设计决策）见独立文档：
 
-> [`niagara_gpu_compute_proxy_internals.md`](./niagara_gpu_compute_proxy_internals.md) — `FNiagaraSystemGpuComputeProxy` 架构详解
+> [`niagara_gpu_compute_proxy_and_dispatch_architecture.md`](./niagara_gpu_compute_proxy_and_dispatch_architecture.md) — `FNiagaraSystemGpuComputeProxy` 架构详解
 
 本节仅保留必要的概述，确保阅读连贯。
 
@@ -1338,7 +1338,7 @@ GT 侧方法（`AddToRenderThread`、`RemoveFromRenderThread`、`ClearTicksFromR
 
 ---
 
-Proxy 是 Niagara GPU 管线中最精妙的设计——"GT 拥有、RT 执行、RT 自杀"。完整深度分析见 [`niagara_gpu_compute_proxy_internals.md`](./niagara_gpu_compute_proxy_internals.md)。
+Proxy 是 Niagara GPU 管线中最精妙的设计——"GT 拥有、RT 执行、RT 自杀"。完整深度分析见 [`niagara_gpu_compute_proxy_and_dispatch_architecture.md`](./niagara_gpu_compute_proxy_and_dispatch_architecture.md)。
 ## 10. DispatchStage 源码逐行解读
 
 这是整个 GPU 粒子模拟最核心的函数（`NiagaraGpuComputeDispatch.cpp · DispatchStage()`）。下面逐步骤解读它的工作：

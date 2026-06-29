@@ -1,10 +1,10 @@
-# Niagara GPU Compute Proxy 架构详解
+# Niagara GPU Compute Proxy 与 Dispatcher 架构详解
 
 **日期:** 2026-06-30
 **分支:** main
 **关联 commit:** `16dc333db` - "5.4.1 release"
 
-> `FNiagaraSystemGpuComputeProxy` 的完整架构分析——类定义、生命周期、线程模型、Dispatch Pipeline、设计决策。
+> `FNiagaraSystemGpuComputeProxy`（渲染线程锚点）+ `FNiagaraGpuComputeDispatch`（调度中枢）的完整架构分析——Proxy 的类定义、生命周期、线程模型，Dispatcher 的调度管线（PrepareTicks → ExecuteTicks → DispatchStage），以及两者的协作关系与设计决策。
 
 
 
@@ -18,12 +18,12 @@
 - [4. 完整生命周期](#4-完整生命周期)
 - [5. Reset 中创建 GPU Proxy 的深层原因](#5-reset-中创建-gpu-proxy-的深层原因)
 - [6. 线程模型与跨线程通信](#6-线程模型与跨线程通信)
-- [7. Compute Dispatch Pipeline 详解](#7-compute-dispatch-pipeline-详解)
+- [7. Dispatcher 调度管线详解（FNiagaraGpuComputeDispatch）](#7-dispatcher-调度管线详解fniagaragpucomputedispatch)
 - [8. Tick Stage 决策逻辑](#8-tick-stage-决策逻辑)
 - [9. Data Interface Per-Instance 数据传递](#9-data-interface-per-instance-数据传递)
 - [10. 资源管理：GPU Buffer 生命周期](#10-资源管理gpu-buffer-生命周期)
-- [11. 设计决策深入分析](#11-设计决策深入分析)
-- [12. 完整数据流图](#12-完整数据流图)
+- [11. 完整数据流图](#11-完整数据流图)
+- [12. 关键设计理由总结](#12-关键设计理由总结)
 
 
 ---
@@ -485,7 +485,9 @@ ENQUEUE_RENDER_COMMAND(ClearTicksFromProxy)(
 
 ---
 
-## 7. Compute Dispatch Pipeline 详解
+## 7. Dispatcher 调度管线详解（FNiagaraGpuComputeDispatch）
+
+> 本章的主角是 **Dispatcher**（`FNiagaraGpuComputeDispatch`）。Proxy 只是把 Tick 数据推到 RT，真正编排 Compute Shader 调度的是 Dispatcher 的三个核心方法：`PrepareTicksForProxy` → `ExecuteTicks` → `DispatchStage`。本章从 Dispatcher 视角逐层展开这条调度管线。
 
 ### 7.1 整体调度流程
 
@@ -692,8 +694,8 @@ sequenceDiagram
 
 ### 9.2 内存布局
 
-```
-FNiagaraGPUSystemTick 的 Packed Buffer 布局:
+`FNiagaraGPUSystemTick` 的 Packed Buffer 布局：
+
 本图说明：`FNiagaraGPUSystemTick` 的 Packed Buffer 内存布局。
 
 ```mermaid
@@ -710,7 +712,6 @@ flowchart TD
         G["InstanceData[1..N-1] 同上<br/>..."]
         A --> B --> C --> D --> E --> F --> G
     end
-```
 ```
 
 
@@ -740,7 +741,7 @@ flowchart TD
 
 ---
 
-## 13. 完整数据流图
+## 11. 完整数据流图
 
 本图说明：Proxy 从创建到每帧运行的完整时序——两个阶段合为一图。
 

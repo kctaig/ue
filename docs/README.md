@@ -17,6 +17,8 @@
 | [niagara_add_velocity_gpu_spawn_flow.md](./niagara_add_velocity_gpu_spawn_flow.md) | Niagara GPU Add Velocity（传统 VM）粒子 Spawn 流程 | flow |
 | [niagara_static_mesh_di_internals.md](./niagara_static_mesh_di_internals.md) | Niagara Static Mesh DataInterface 类内部实现详解 | architecture |
 | [niagara_gpu_sim_to_render_data_flow.md](./niagara_gpu_sim_to_render_data_flow.md) | Niagara GPU 模拟与渲染之间的数据处理逻辑 | flow |
+| [niagara_gpu_pipeline_architecture.md](./niagara_gpu_pipeline_architecture.md) | Niagara GPU Compute Shader 架构详解（五角色 + DispatchStage 逐行解读） | architecture |
+| [niagara_gpu_compute_proxy_and_dispatch_architecture.md](./niagara_gpu_compute_proxy_and_dispatch_architecture.md) | Niagara GPU Compute Proxy 与 Dispatcher 架构详解（生命周期 + 调度管线） | architecture |
 
 ---
 
